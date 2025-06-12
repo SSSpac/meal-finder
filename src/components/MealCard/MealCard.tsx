@@ -44,10 +44,6 @@ const MealCard: React.FC<MealCardProps> = ({ meal, fetchMeal }) => {
         </div>
       </div>
       
-      <div className={styles.mealInstructions}>
-        <h3>Instructions</h3>
-        <p>{meal.strInstructions}</p>
-      </div>
       
       {meal.strYoutube && (
         <div className={styles.mealVideo}>
@@ -57,7 +53,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal, fetchMeal }) => {
             rel="noopener noreferrer"
             className={styles.youtubeLink}
           >
-            Watch on YouTube
+            Watch the toturial on YouTube
           </a>
         </div>
       )}

@@ -1,7 +1,7 @@
 import React from 'react';
-import useFetchMeal from './hooks/useFetchMeal';
+import useFetchMeal from './fetcher/useFetchMeal';
 import MealCard from './components/MealCard/MealCard';
-import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
+import LoadingSpinner from './components/Loader/loader';
 import './App.scss';
 
 const App: React.FC = () => {
@@ -10,8 +10,8 @@ const App: React.FC = () => {
   return (
     <div className="app">
       <header className="appHeader">
-        <h1>Random Meal Generator</h1>
-        <p>Discover delicious recipes from around the world!</p>
+        <h1>Random Meal Genrator</h1>
+        <p>Get delicious recipes </p>
       </header>
       
       <main className="appMain">
@@ -21,7 +21,7 @@ const App: React.FC = () => {
       </main>
       
       <footer className="appFooter">
-        <p>Powered by TheMealDB API</p>
+        <p>2025 meal finder</p>
       </footer>
     </div>
   );
