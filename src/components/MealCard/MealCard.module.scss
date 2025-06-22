@@ -1,48 +1,77 @@
+@import '/src/App.scss';
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'small' {
+    @media (max-width: 480px) { @content; }
+  } @else if $breakpoint == 'medium' {
+    @media (max-width: 768px) { @content; }
+  } @else if $breakpoint == 'large' {
+    @media (min-width: 1200px) { @content; }
+  }
+}
+
 .mealCard {
+  @include card-style;
   max-width: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
+  margin: 0 auto $spacing-unit * 2;
+  
+  @include respond-to('medium') {
+    padding: $spacing-unit;
+  }
 }
 
 .mealHeader {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: $spacing-unit * 1.5;
   
   h2 {
-    color: #2c3e50;
-    margin-bottom: 0.5rem;
+    color: $secondary-color;
+    margin-bottom: $spacing-unit * 0.5;
+    font-size: calculate-font-size(1rem, 1.8);
+    
+    @extend %text-truncate;
+    max-width: 100%;
   }
 }
 
 .mealMeta {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  color: #7f8c8d;
+  @include flex-center;
+  gap: $spacing-unit;
+  color: lighten($dark-color, 30%);
   font-style: italic;
+  flex-wrap: wrap;
+  
+  span {
+    @include respond-to('small') {
+      font-size: 0.8rem;
+    }
+  }
 }
 
 .mealContent {
   display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  gap: $spacing-unit * 2;
+  margin-bottom: $spacing-unit * 2;
   
-  @media (max-width: 768px) {
+  @include respond-to('medium') {
     flex-direction: column;
+    gap: $spacing-unit;
   }
 }
 
 .mealImage {
   flex: 1;
+  min-width: 0;
   
   img {
     width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.02);
+    }
   }
 }
 
@@ -50,30 +79,35 @@
   flex: 1;
   
   h3 {
-    color: #2c3e50;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
+    color: $secondary-color;
+    padding-bottom: $spacing-unit * 0.5;
+    margin-bottom: $spacing-unit;
   }
   
   ul {
     list-style-type: none;
     padding: 0;
+    columns: 2;
+    
+    @include respond-to('small') {
+      columns: 1;
+    }
     
     li {
-      padding: 0.3rem 0;
-      border-bottom: 1px dotted #ecf0f1;
+      padding: $spacing-unit * 0.3 0;
+      break-inside: avoid;
     }
   }
 }
 
 .mealInstructions {
-  margin-bottom: 1.5rem;
+  margin-bottom: $spacing-unit * 1.5;
   
   h3 {
-    color: #2c3e50;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
+    color: $secondary-color;
+    border-bottom: 2px solid $main-color;
+    padding-bottom: $spacing-unit * 0.5;
+    margin-bottom: $spacing-unit;
   }
   
   p {
@@ -84,36 +118,28 @@
 
 .mealVideo {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: $spacing-unit * 1.5;
   
   a {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: #e74c3c;
-    color: white;
+    @include button-style($error-color, darken($error-color, 10%));
     text-decoration: none;
-    border-radius: 4px;
-    transition: background 0.3s;
-    
-    &:hover {
-      background: #c0392b;
-    }
   }
 }
 
 .refreshButton {
-  display: block;
+  @include button-style;
   width: 100%;
-  padding: 1rem;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s;
+  padding: $spacing-unit;
+  font-size: calculate-font-size(1rem, 1.1);
+}
+
+// Generate utility classes for spacing
+@for $i from 1 through 5 {
+  .mb-#{$i} {
+    margin-bottom: $spacing-unit * $i;
+  }
   
-  &:hover {
-    background: #2b5877;
+  .mt-#{$i} {
+    margin-top: $spacing-unit * $i;
   }
 }

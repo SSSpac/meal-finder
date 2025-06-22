@@ -1,25 +1,24 @@
 import { useState, useEffect } from 'react';
-import { Meal } from '../types/Meal';
-import { fetchRandomMeal } from '../utils/api';
+import { Meal } from '../type/Meal';
+import { fetchMealsByLetter } from '../utils/api';
 
-const useFetchMeal = () => {
-  const [meal, setMeal] = useState<Meal | null>(null);
+const useFetchMeals = () => {
+  const [meals, setMeals] = useState<Meal[]>([]);
+  const [selectedLetter, setSelectedLetter] = useState<string>('a');
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
-  const fetchMeal = async () => {
+  const fetchMeals = async (letter: string) => {
     try {
       setLoading(true);
-      setError(null);
-      const data = await fetchRandomMeal();
-      if (data.meals && data.meals.length > 0) {
-        setMeal(data.meals[0]);
+      const data = await fetchMealsByLetter(letter);
+      if (data.meals) {
+        setMeals(data.meals);
       } else {
-        throw new Error('No meals found');
+        setMeals([]);
+        throw new Error(`No meals found starting with '${letter}'`);
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch meal';
-      setError(errorMessage);
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch meals';
       console.error('Fetch error:', errorMessage);
     } finally {
       setLoading(false);
@@ -27,10 +26,16 @@ const useFetchMeal = () => {
   };
 
   useEffect(() => {
-    fetchMeal();
-  }, []);
+    fetchMeals(selectedLetter);
+  }, [selectedLetter]);
 
-  return { meal, loading, error, fetchMeal };
+  return { 
+    meals, 
+    loading, 
+    selectedLetter,
+    setSelectedLetter,
+    fetchMeals 
+  };
 };
 
-export default useFetchMeal;
+export default useFetchMeals;

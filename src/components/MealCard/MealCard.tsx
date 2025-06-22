@@ -1,13 +1,13 @@
 import React from 'react';
-import { Meal } from '../../types/Meal';
+import { Meal } from '../../type/Meal';
 import styles from './MealCard.module.scss';
 
 interface MealCardProps {
   meal: Meal;
-  fetchMeal: () => void;
+  fetchMeals: () => void;
 }
 
-const MealCard: React.FC<MealCardProps> = ({ meal, fetchMeal }) => {
+const MealCard: React.FC<MealCardProps> = ({ meal, fetchMeals }) => {
   const ingredients = [];
   
   for (let i = 1; i <= 20; i++) {
@@ -25,7 +25,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal, fetchMeal }) => {
         <div className={styles.mealMeta}>
           <span>{meal.strCategory}</span>
           <span>{meal.strArea}</span>
-          {meal.strTags && <span>{meal.strTags}</span>}
+          {meal.strTags && <span>{meal.strTags.split(',').join(', ')}</span>}
         </div>
       </div>
       
@@ -35,7 +35,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal, fetchMeal }) => {
         </div>
         
         <div className={styles.mealDetails}>
-          <h3>Ingredients</h3>
+          <h3>Ingredient</h3>
           <ul>
             {ingredients.map((item, index) => (
               <li key={index}>{item}</li>
@@ -43,28 +43,6 @@ const MealCard: React.FC<MealCardProps> = ({ meal, fetchMeal }) => {
           </ul>
         </div>
       </div>
-      
-      
-      {meal.strYoutube && (
-        <div className={styles.mealVideo}>
-          <a
-            href={meal.strYoutube}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.youtubeLink}
-          >
-            Watch the toturial on YouTube
-          </a>
-        </div>
-      )}
-      
-      <button 
-        className={styles.refreshButton} 
-        onClick={fetchMeal}
-        aria-label="Get another random meal"
-      >
-        Get Another Random Meal
-      </button>
     </div>
   );
 };
